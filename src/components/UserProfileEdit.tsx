@@ -10,7 +10,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Edit } from "lucide-react"
 
 interface UserData {
@@ -25,6 +26,8 @@ interface UserData {
   github: string
   linkedin: string
   twitter: string
+  experienceLevel?: string
+  workType?: string
 }
 
 interface UserProfileEditProps {
@@ -64,6 +67,8 @@ const formSchema = z.object({
   twitter: z.string().min(1, {
     message: "Twitter username is required.",
   }),
+  experienceLevel: z.string().optional(),
+  workType: z.string().optional(),
 })
 
 export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
@@ -82,7 +87,9 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
       website: user.website || "",
       github: user.github,
       linkedin: user.linkedin,
-      twitter: user.twitter
+      twitter: user.twitter,
+      experienceLevel: user.experienceLevel || "",
+      workType: user.workType || "",
     },
   })
 
@@ -169,9 +176,27 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Role</FormLabel>
                       <div className="col-span-3">
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select your role" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Frontend Developer">Frontend Developer</SelectItem>
+                            <SelectItem value="Backend Developer">Backend Developer</SelectItem>
+                            <SelectItem value="Full Stack Developer">Full Stack Developer</SelectItem>
+                            <SelectItem value="DevOps Engineer">DevOps Engineer</SelectItem>
+                            <SelectItem value="Product Manager">Product Manager</SelectItem>
+                            <SelectItem value="UI/UX Designer">UI/UX Designer</SelectItem>
+                            <SelectItem value="Data Scientist">Data Scientist</SelectItem>
+                            <SelectItem value="QA Engineer">QA Engineer</SelectItem>
+                            <SelectItem value="Mobile Developer">Mobile Developer</SelectItem>
+                            <SelectItem value="Software Architect">Software Architect</SelectItem>
+                            <SelectItem value="Tech Lead">Tech Lead</SelectItem>
+                            <SelectItem value="Other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </div>
                     </FormItem>
@@ -204,6 +229,60 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
                         <FormControl>
                           <Input {...field} />
                         </FormControl>
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="experienceLevel"
+                  render={({ field }) => (
+                    <FormItem className="grid grid-cols-4 items-center gap-4">
+                      <FormLabel className="text-right">Experience</FormLabel>
+                      <div className="col-span-3">
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select experience level" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Intern">Intern</SelectItem>
+                            <SelectItem value="Junior (0-2 years)">Junior (0-2 years)</SelectItem>
+                            <SelectItem value="Mid-level (2-5 years)">Mid-level (2-5 years)</SelectItem>
+                            <SelectItem value="Senior (5-8 years)">Senior (5-8 years)</SelectItem>
+                            <SelectItem value="Lead (8+ years)">Lead (8+ years)</SelectItem>
+                            <SelectItem value="Principal/Staff">Principal/Staff</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="workType"
+                  render={({ field }) => (
+                    <FormItem className="grid grid-cols-4 items-center gap-4">
+                      <FormLabel className="text-right">Work Type</FormLabel>
+                      <div className="col-span-3">
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select work preference" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Remote">Remote</SelectItem>
+                            <SelectItem value="On-site">On-site</SelectItem>
+                            <SelectItem value="Hybrid">Hybrid</SelectItem>
+                            <SelectItem value="Flexible">Flexible</SelectItem>
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </div>
                     </FormItem>

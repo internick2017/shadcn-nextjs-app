@@ -5,7 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { 
@@ -29,6 +28,7 @@ import {
 } from "lucide-react"
 import { TodoList } from "@/components/TodoList"
 import { UserProfileEdit } from "@/components/UserProfileEdit"
+import { SelectTest } from "@/components/SelectTest"
 
 interface UserProfileProps {
   params: Promise<{ id: string }>
@@ -512,6 +512,9 @@ export default function UserProfilePage({ params }: UserProfileProps) {
 
           {/* Todo List */}
           <TodoList />
+          
+          {/* Select Test */}
+          <SelectTest />
         </div>
       </div>
     </div>
