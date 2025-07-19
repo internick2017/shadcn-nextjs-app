@@ -6,36 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
-export interface CardAction {
-  label: string
-  onClick: () => void
-  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
-}
+import { CardAction, HeaderAction, BadgeData, CardItem } from "@/types/card"
 
-export interface HeaderAction {
-  icon: React.ReactNode
-  onClick: () => void
-  tooltip?: string
-}
-
-export interface BadgeData {
-  text: string
-  variant?: "default" | "destructive" | "outline" | "secondary"
-}
-
-export interface CardItem {
-  id: string
-  title: string
-  description?: string
-  content?: React.ReactNode | string
-  badge?: BadgeData
-  status?: "active" | "inactive" | "pending" | "completed"
-  headerAction?: HeaderAction
-  actions?: CardAction[]
-  footer?: React.ReactNode
-  image?: string
-  className?: string
-}
+// Re-export for backward compatibility
+export type { CardAction, HeaderAction, BadgeData, CardItem }
 
 interface CardListProps {
   items: CardItem[]

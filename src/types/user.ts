@@ -1,3 +1,8 @@
+// User related types
+export type UserStatus = 'active' | 'inactive' | 'pending'
+export type SkillLevel = 'Expert' | 'Advanced' | 'Intermediate' | 'Beginner'
+export type ActivityType = 'commit' | 'review' | 'issue' | 'comment' | 'deploy' | 'merge'
+
 export interface UserPerformanceData {
   month: string
   commits: number
@@ -12,7 +17,7 @@ export interface UserActivityTrend {
 
 export interface UserSkill {
   name: string
-  level: 'Expert' | 'Advanced' | 'Intermediate' | 'Beginner'
+  level: SkillLevel
   color: string
 }
 
@@ -24,7 +29,7 @@ export interface UserAchievement {
 }
 
 export interface UserRecentActivity {
-  type: 'commit' | 'review' | 'issue' | 'comment' | 'deploy' | 'merge'
+  type: ActivityType
   message: string
   time: string
   repo: string
@@ -44,34 +49,55 @@ export interface TeamMember {
   initials: string
 }
 
+// Main User interface - comprehensive version
 export interface User {
   id: string
   name: string
   username: string
   email: string
-  phone: string
+  phone?: string
   avatar: string
-  coverImage: string
+  coverImage?: string
   bio: string
   location: string
   company: string
   role: string
   joinDate: string
-  website: string
-  github: string
-  linkedin: string
-  twitter: string
-  status: 'active' | 'inactive'
+  website?: string
+  github?: string
+  linkedin?: string
+  twitter?: string
+  status: UserStatus
   verified: boolean
   followers: number
   following: number
   posts: number
-  performanceData: UserPerformanceData[]
-  activityTrend: UserActivityTrend[]
-  skills: UserSkill[]
-  achievements: UserAchievement[]
-  recentActivity: UserRecentActivity[]
-  stats: UserStats
+  skills: string[] | UserSkill[] // Support both formats for backward compatibility
+  performanceData?: UserPerformanceData[]
+  activityTrend?: UserActivityTrend[]
+  achievements?: UserAchievement[]
+  recentActivity?: UserRecentActivity[]
+  stats?: UserStats
+}
+
+// Simplified User interface for lists and basic display
+export interface UserSummary {
+  id: string
+  name: string
+  username: string
+  email: string
+  avatar: string
+  bio: string
+  location: string
+  company: string
+  role: string
+  joinDate: string
+  status: UserStatus
+  verified: boolean
+  followers: number
+  following: number
+  posts: number
+  skills: string[]
 }
 
 export interface UserProfileProps {

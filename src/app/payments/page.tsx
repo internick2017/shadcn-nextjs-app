@@ -23,35 +23,14 @@ import {
 } from "lucide-react"
 import { useState } from "react"
 
-// Payment type definition
-export type Payment = {
-  id: string
-  transactionId: string
-  amount: number
-  currency: string
-  status: "completed" | "pending" | "failed" | "refunded"
-  method: "credit_card" | "debit_card" | "paypal" | "bank_transfer" | "crypto"
-  customer: {
-    id: string
-    name: string
-    email: string
-    avatar: string
-  }
-  merchant: {
-    name: string
-    category: string
-  }
-  description: string
-  date: string
-  fee: number
-  refundAmount?: number
-  gateway: string
-  country: string
-  risk_score: "low" | "medium" | "high"
-}
+import { Payment } from "@/types/payment"
+import { payments } from "@/data/payments"
 
-// Mock payments data - in a real app, this would come from an API
-const allPayments: Payment[] = [
+// Re-export Payment type for backward compatibility
+export type { Payment }
+
+// Mock payments data - using centralized data
+const allPayments: Payment[] = payments
   {
     id: "1",
     transactionId: "TXN-001-2024",

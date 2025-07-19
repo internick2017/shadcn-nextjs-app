@@ -23,28 +23,14 @@ import {
 import Link from "next/link"
 import { useState } from "react"
 
-// User type definition
-export type User = {
-  id: string
-  name: string
-  username: string
-  email: string
-  avatar: string
-  bio: string
-  location: string
-  company: string
-  role: string
-  joinDate: string
-  status: "active" | "inactive" | "pending"
-  verified: boolean
-  followers: number
-  following: number
-  posts: number
-  skills: string[]
-}
+import { UserSummary } from "@/types/user"
+import { userSummaries } from "@/data/users"
 
-// Mock users data - in a real app, this would come from an API
-const allUsers: User[] = [
+// Re-export User type for backward compatibility
+export type User = UserSummary
+
+// Mock users data - using centralized data
+const allUsers: User[] = userSummaries
   {
     id: "1",
     name: "Sarah Johnson",

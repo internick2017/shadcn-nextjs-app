@@ -5,36 +5,39 @@ import { AppAreaChart } from "@/components/AppAreaChart"
 import { AppPieChart } from "@/components/AppPieChart"
 import { CardList, type CardItem } from "@/components/common/CardList"
 import { TransactionList, type Transaction } from "@/components/TransactionList"
+import { projectCards } from "@/data/projects"
+import { transactions } from "@/data/transactions"
 import { TodoList } from "@/components/TodoList"
 import { MoreHorizontal, Star, Clock, CheckCircle, Calendar, User, MessageCircle, Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-// Enhanced card data showcasing all functionalities
+// Enhanced card data showcasing all functionalities - using centralized project data
 const cardItems: CardItem[] = [
+  ...projectCards.slice(0, 3), // Use first 3 projects from centralized data
   {
-    id: "1",
-    title: "Project Alpha",
-    description: "Next.js application with modern UI components",
-    content: "A full-stack application built with Next.js, TypeScript, and shadcn/ui components. Features include authentication, real-time updates, and responsive design.",
+    id: "custom-1",
+    title: "Custom Dashboard",
+    description: "Analytics and reporting dashboard",
+    content: "Real-time analytics dashboard with customizable widgets and reporting features.",
     badge: {
-      text: "Active",
-      variant: "default"
+      text: "New",
+      variant: "secondary"
     },
     status: "active",
     headerAction: {
       icon: <MoreHorizontal className="h-4 w-4" />,
-      onClick: () => console.log("More options for Project Alpha"),
+      onClick: () => console.log("More options for Custom Dashboard"),
       tooltip: "More options"
     },
     actions: [
       {
         label: "View Details",
-        onClick: () => console.log("View Project Alpha"),
+        onClick: () => console.log("View Custom Dashboard"),
         variant: "default"
       },
       {
         label: "Edit",
-        onClick: () => console.log("Edit Project Alpha"),
+        onClick: () => console.log("Edit Custom Dashboard"),
         variant: "outline"
       }
     ],
@@ -301,75 +304,8 @@ const blogPosts: CardItem[] = [
   }
 ]
 
-// Transaction data
-const transactionData: Transaction[] = [
-  {
-    id: "txn-1",
-    userName: "John Smith",
-    userImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
-    type: "credit",
-    amount: 250.00,
-    quantity: 5,
-    description: "Product purchase - Premium subscription",
-    timestamp: "2 minutes ago",
-    status: "completed"
-  },
-  {
-    id: "txn-2", 
-    userName: "Emma Johnson",
-    userImage: "https://images.unsplash.com/photo-1494790108755-2616b25b7e54?w=100&h=100&fit=crop&crop=face",
-    type: "debit",
-    amount: 75.50,
-    quantity: 2,
-    description: "Refund processed - Order #12345",
-    timestamp: "15 minutes ago",
-    status: "pending"
-  },
-  {
-    id: "txn-3",
-    userName: "Michael Brown",
-    userImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
-    type: "credit",
-    amount: 450.00,
-    quantity: 8,
-    description: "Bulk order - Enterprise license",
-    timestamp: "1 hour ago",
-    status: "completed"
-  },
-  {
-    id: "txn-4",
-    userName: "Sarah Wilson",
-    userImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
-    type: "credit",
-    amount: 120.00,
-    quantity: 3,
-    description: "Monthly subscription renewal",
-    timestamp: "3 hours ago", 
-    status: "completed"
-  },
-  {
-    id: "txn-5",
-    userName: "David Lee",
-    userImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
-    type: "debit",
-    amount: 30.00,
-    quantity: 1,
-    description: "Payment failed - Insufficient funds",
-    timestamp: "6 hours ago",
-    status: "failed"
-  },
-  {
-    id: "txn-6",
-    userName: "Lisa Garcia",
-    userImage: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=100&h=100&fit=crop&crop=face",
-    type: "credit",
-    amount: 89.99,
-    quantity: 4,
-    description: "Add-on features purchase",
-    timestamp: "1 day ago",
-    status: "completed"
-  }
-]
+// Transaction data - using centralized data
+const transactionData: Transaction[] = transactions.slice(0, 6) // Use first 6 transactions
 
 export default function Home() {
   const handleAddQuantity = (transactionId: string) => {

@@ -12,59 +12,18 @@ import { Calendar } from "@/components/ui/calendar"
 import { Plus, Trash2, Calendar as CalendarIcon, MoreHorizontal } from "lucide-react"
 import { format } from "date-fns"
 
-export interface TodoItem {
-  id: string
-  text: string
-  completed: boolean
-  priority: "low" | "medium" | "high"
-  dueDate?: string
-  createdAt: string
-}
+import { TodoItem } from "@/types/todo"
+
+// Re-export for backward compatibility
+export type { TodoItem }
 
 interface TodoListProps {
   className?: string
 }
 
-const initialTodos: TodoItem[] = [
-  {
-    id: "1",
-    text: "Implement user authentication",
-    completed: false,
-    priority: "high",
-    dueDate: "2024-01-15",
-    createdAt: "2024-01-10"
-  },
-  {
-    id: "2", 
-    text: "Design new landing page",
-    completed: true,
-    priority: "medium",
-    dueDate: "2024-01-12",
-    createdAt: "2024-01-08"
-  },
-  {
-    id: "3",
-    text: "Write unit tests for API endpoints",
-    completed: false,
-    priority: "medium",
-    createdAt: "2024-01-09"
-  },
-  {
-    id: "4",
-    text: "Optimize database queries",
-    completed: false,
-    priority: "low",
-    dueDate: "2024-01-20",
-    createdAt: "2024-01-11"
-  },
-  {
-    id: "5",
-    text: "Update documentation",
-    completed: true,
-    priority: "low",
-    createdAt: "2024-01-07"
-  }
-]
+import { todos } from "@/data/todos"
+
+const initialTodos: TodoItem[] = todos
 
 export function TodoList({ className }: TodoListProps) {
   const [todos, setTodos] = useState<TodoItem[]>(initialTodos)

@@ -16,10 +16,11 @@ import {
   UserQuickActions
 } from "@/components/user"
 import { User, UserProfileProps } from "@/types/user"
+import { getUserById } from "@/data/users"
 
-// Mock user data - in a real app, this would come from an API
-const getUserData = (id: string): User => {
-  const users = {
+// Mock user data - using centralized data
+const getUserData = (id: string): User | null => {
+  return getUserById(id) || {
     "1": {
       id: "1",
       name: "Sarah Johnson",

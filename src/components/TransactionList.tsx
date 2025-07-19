@@ -6,17 +6,10 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ArrowUpRight, ArrowDownLeft, Plus, Minus } from "lucide-react"
 
-export interface Transaction {
-  id: string
-  userName: string
-  userImage: string
-  type: "credit" | "debit"
-  amount: number
-  quantity: number
-  description: string
-  timestamp: string
-  status: "completed" | "pending" | "failed"
-}
+import { Transaction } from "@/types/payment"
+
+// Re-export for backward compatibility
+export type { Transaction }
 
 interface TransactionListProps {
   transactions: Transaction[]
