@@ -125,7 +125,13 @@ export const users: User[] = [
     followers: 1923,
     following: 654,
     posts: 89,
-    skills: [commonSkills[4], commonSkills[5], commonSkills[6], commonSkills[7]]
+    skills: [commonSkills[4], commonSkills[5], commonSkills[6], commonSkills[7]],
+    stats: {
+      projectsCompleted: 18,
+      codeReviews: 132,
+      linesOfCode: 38450,
+      bugsFixed: 73
+    }
   },
   {
     id: "3",
@@ -143,7 +149,13 @@ export const users: User[] = [
     followers: 3421,
     following: 1205,
     posts: 234,
-    skills: [commonSkills[8], commonSkills[9]]
+    skills: [commonSkills[8], commonSkills[9]],
+    stats: {
+      projectsCompleted: 12,
+      codeReviews: 87,
+      linesOfCode: 15230,
+      bugsFixed: 34
+    }
   },
   {
     id: "4",

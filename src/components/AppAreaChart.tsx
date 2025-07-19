@@ -14,15 +14,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-
-const chartData = [
-  { month: "Jan", sales: 2400, revenue: 1800 },
-  { month: "Feb", sales: 1398, revenue: 2100 },
-  { month: "Mar", sales: 9800, revenue: 2900 },
-  { month: "Apr", sales: 3908, revenue: 2780 },
-  { month: "May", sales: 4800, revenue: 1890 },
-  { month: "Jun", sales: 3800, revenue: 2390 },
-]
+import { areaChartData } from "@/data/charts"
 
 const chartConfig = {
   sales: {
@@ -45,7 +37,7 @@ export function AppAreaChart() {
       <CardContent className="h-[140px] md:h-[160px] p-4">
         <ChartContainer config={chartConfig} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
+            <AreaChart data={areaChartData} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
               <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
                 dataKey="month" 

@@ -30,7 +30,7 @@ import { userSummaries } from "@/data/users"
 export type User = UserSummary
 
 // Mock users data - using centralized data
-const allUsers: User[] = userSummaries
+const allUsers: User[] = [
   {
     id: "1",
     name: "Sarah Johnson",

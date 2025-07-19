@@ -47,50 +47,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
-const menuItems = [
-  {
-    title: "Home",
-    icon: Home,
-    url: "/",
-  },
-  {
-    title: "Inbox",
-    icon: Mail,
-    url: "/inbox",
-    badge: "12",
-  },
-  {
-    title: "Calendar",
-    icon: Calendar,
-    url: "/calendar",
-  },
-  {
-    title: "Search",
-    icon: Search,
-    url: "/search",
-  },
-  {
-    title: "Team Members",
-    icon: Users,
-    url: "/users",
-  },
-  {
-    title: "Payments",
-    icon: CreditCard,
-    url: "/payments",
-  },
-  {
-    title: "Settings",
-    icon: Settings,
-    url: "/settings",
-  },
-]
-
-const userProfiles = [
-  { id: "1", name: "Sarah Johnson", avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&h=150&fit=crop&crop=face" },
-  { id: "2", name: "Alex Chen", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" },
-]
+import { menuItems, userProfiles } from "@/data/navigation"
 
 export function AppSidebar() {
   return (

@@ -30,7 +30,7 @@ import { payments } from "@/data/payments"
 export type { Payment }
 
 // Mock payments data - using centralized data
-const allPayments: Payment[] = payments
+const allPayments: Payment[] = [
   {
     id: "1",
     transactionId: "TXN-001-2024",

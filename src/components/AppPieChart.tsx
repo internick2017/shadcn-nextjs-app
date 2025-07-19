@@ -14,13 +14,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-
-const chartData = [
-  { name: "Web", value: 400 },
-  { name: "Mobile", value: 300 },
-  { name: "Desktop", value: 200 },
-  { name: "Other", value: 100 },
-]
+import { pieChartData } from "@/data/charts"
 
 const chartConfig = {
   web: {
@@ -53,7 +47,7 @@ export function AppPieChart() {
           <ResponsiveContainer width="100%" height="100%">
             <PieChart margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
               <Pie
-                data={chartData}
+                data={pieChartData}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
@@ -61,7 +55,7 @@ export function AppPieChart() {
                 dataKey="value"
                 fill="#8884d8"
               >
-                {chartData.map((entry, index) => {
+                {pieChartData.map((entry, index) => {
                   const name = entry.name.toLowerCase()
                   return (
                     <Cell
@@ -79,7 +73,7 @@ export function AppPieChart() {
                     hideLabel
                     formatter={(value) => `${value} users`}
                   />
-                } 
+                }
               />
             </PieChart>
           </ResponsiveContainer>

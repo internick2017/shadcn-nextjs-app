@@ -11,7 +11,7 @@ import {
 import { UserRecentActivity as UserRecentActivityType } from "@/types/user"
 
 interface UserRecentActivityProps {
-  recentActivity: UserRecentActivityType[]
+  recentActivity?: UserRecentActivityType[]
 }
 
 const getActivityIcon = (type: string) => {
@@ -27,6 +27,9 @@ const getActivityIcon = (type: string) => {
 }
 
 export function UserRecentActivity({ recentActivity }: UserRecentActivityProps) {
+  // Provide fallback if recentActivity is undefined or empty
+  const activities = recentActivity || []
+
   return (
     <Card>
       <CardHeader>
@@ -39,20 +42,29 @@ export function UserRecentActivity({ recentActivity }: UserRecentActivityProps) 
       <CardContent>
         <ScrollArea className="h-[300px]">
           <div className="space-y-4 pr-4">
-            {recentActivity.map((activity, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                {getActivityIcon(activity.type)}
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium">{activity.message}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Badge variant="outline" className="text-xs">
-                      {activity.repo}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground">{activity.time}</span>
+            {activities.length > 0 ? (
+              activities.map((activity, index) => (
+                <div key={index} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
+                  {getActivityIcon(activity.type)}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium">{activity.message}</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Badge variant="outline" className="text-xs">
+                        {activity.repo}
+                      </Badge>
+                      <span className="text-xs text-muted-foreground">{activity.time}</span>
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="flex items-center justify-center h-32 text-muted-foreground">
+                <div className="text-center">
+                  <MessageCircle className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">No recent activity available</p>
+                </div>
               </div>
-            ))}
+            )}
           </div>
         </ScrollArea>
       </CardContent>
