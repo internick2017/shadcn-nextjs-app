@@ -1,103 +1,442 @@
-import Image from "next/image";
+"use client"
+
+import { AppBarChart } from "@/components/AppBarChart"
+import { AppAreaChart } from "@/components/AppAreaChart"
+import { AppPieChart } from "@/components/AppPieChart"
+import { CardList, type CardItem } from "@/components/common/CardList"
+import { TransactionList, type Transaction } from "@/components/TransactionList"
+import { TodoList } from "@/components/TodoList"
+import { MoreHorizontal, Star, Clock, CheckCircle, Calendar, User, MessageCircle, Heart } from "lucide-react"
+import { Button } from "@/components/ui/button"
+
+// Enhanced card data showcasing all functionalities
+const cardItems: CardItem[] = [
+  {
+    id: "1",
+    title: "Project Alpha",
+    description: "Next.js application with modern UI components",
+    content: "A full-stack application built with Next.js, TypeScript, and shadcn/ui components. Features include authentication, real-time updates, and responsive design.",
+    badge: {
+      text: "Active",
+      variant: "default"
+    },
+    status: "active",
+    headerAction: {
+      icon: <MoreHorizontal className="h-4 w-4" />,
+      onClick: () => console.log("More options for Project Alpha"),
+      tooltip: "More options"
+    },
+    actions: [
+      {
+        label: "View Details",
+        onClick: () => console.log("View Project Alpha"),
+        variant: "default"
+      },
+      {
+        label: "Edit",
+        onClick: () => console.log("Edit Project Alpha"),
+        variant: "outline"
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop"
+  },
+  {
+    id: "2", 
+    title: "Dashboard Analytics",
+    description: "Real-time data visualization platform",
+    content: (
+      <div className="space-y-2">
+        <p>Interactive charts and graphs showing:</p>
+        <ul className="list-disc list-inside text-xs space-y-1">
+          <li>Key business metrics</li>
+          <li>Performance indicators</li>
+          <li>User engagement data</li>
+        </ul>
+      </div>
+    ),
+    badge: {
+      text: "In Progress",
+      variant: "secondary"
+    },
+    status: "pending",
+    headerAction: {
+      icon: <Star className="h-4 w-4" />,
+      onClick: () => console.log("Favorite Dashboard"),
+      tooltip: "Add to favorites"
+    },
+    footer: (
+      <div className="flex items-center justify-between w-full text-xs text-muted-foreground">
+        <span>Last updated: 2 hours ago</span>
+        <span>Progress: 75%</span>
+      </div>
+    ),
+    actions: [
+      {
+        label: "Open Dashboard",
+        onClick: () => console.log("Open Dashboard"),
+        variant: "default"
+      }
+    ]
+  },
+  {
+    id: "3",
+    title: "User Management System",
+    description: "Complete admin panel for user operations",
+    content: "Advanced user management system with role-based access control, permissions management, and audit logging capabilities.",
+    badge: {
+      text: "Completed",
+      variant: "outline"
+    },
+    status: "completed",
+    headerAction: {
+      icon: <CheckCircle className="h-4 w-4" />,
+      onClick: () => console.log("Mark as reviewed"),
+      tooltip: "Mark as reviewed"
+    },
+    actions: [
+      {
+        label: "Manage Users",
+        onClick: () => console.log("Manage Users"),
+        variant: "default"
+      },
+      {
+        label: "View Logs",
+        onClick: () => console.log("View Logs"),
+        variant: "ghost"
+      },
+      {
+        label: "Settings",
+        onClick: () => console.log("Settings"),
+        variant: "outline"
+      }
+    ],
+    footer: (
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <Clock className="h-3 w-3" />
+        <span>Deployed 3 days ago</span>
+      </div>
+    )
+  }
+]
+
+// Blog posts data
+const blogPosts: CardItem[] = [
+  {
+    id: "post-1",
+    title: "Getting Started with Next.js 14",
+    description: "A comprehensive guide to building modern web applications",
+    content: "Learn how to set up a new Next.js project with the latest features including App Router, Server Components, and improved performance optimizations.",
+    badge: {
+      text: "Tutorial",
+      variant: "secondary"
+    },
+    status: "active",
+    headerAction: {
+      icon: <Heart className="h-4 w-4" />,
+      onClick: () => console.log("Like post"),
+      tooltip: "Like this post"
+    },
+    footer: (
+      <div className="flex items-center justify-between w-full text-xs text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <User className="h-3 w-3" />
+          <span>John Doe</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <MessageCircle className="h-3 w-3" />
+            <span>12</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            <span>2 days ago</span>
+          </div>
+        </div>
+      </div>
+    ),
+    actions: [
+      {
+        label: "Read More",
+        onClick: () => console.log("Read Next.js post"),
+        variant: "default"
+      },
+      {
+        label: "Share",
+        onClick: () => console.log("Share post"),
+        variant: "outline"
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=200&fit=crop"
+  },
+  {
+    id: "post-2",
+    title: "Building Responsive UI with Tailwind CSS",
+    description: "Master the art of responsive design with utility-first CSS",
+    content: "Discover advanced Tailwind CSS techniques for creating beautiful, responsive interfaces that work seamlessly across all devices and screen sizes.",
+    badge: {
+      text: "CSS",
+      variant: "outline"
+    },
+    status: "active",
+    headerAction: {
+      icon: <Star className="h-4 w-4" />,
+      onClick: () => console.log("Bookmark post"),
+      tooltip: "Bookmark this post"
+    },
+    footer: (
+      <div className="flex items-center justify-between w-full text-xs text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <User className="h-3 w-3" />
+          <span>Jane Smith</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <MessageCircle className="h-3 w-3" />
+            <span>8</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            <span>5 days ago</span>
+          </div>
+        </div>
+      </div>
+    ),
+    actions: [
+      {
+        label: "Read More",
+        onClick: () => console.log("Read Tailwind post"),
+        variant: "default"
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop"
+  },
+  {
+    id: "post-3",
+    title: "TypeScript Best Practices for React",
+    description: "Write better, more maintainable React code with TypeScript",
+    content: "Explore essential TypeScript patterns and best practices that will help you build more robust React applications with better type safety.",
+    badge: {
+      text: "TypeScript",
+      variant: "default"
+    },
+    status: "active",
+    headerAction: {
+      icon: <MoreHorizontal className="h-4 w-4" />,
+      onClick: () => console.log("More options"),
+      tooltip: "More options"
+    },
+    footer: (
+      <div className="flex items-center justify-between w-full text-xs text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <User className="h-3 w-3" />
+          <span>Alex Johnson</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <MessageCircle className="h-3 w-3" />
+            <span>15</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            <span>1 week ago</span>
+          </div>
+        </div>
+      </div>
+    ),
+    actions: [
+      {
+        label: "Read More",
+        onClick: () => console.log("Read TypeScript post"),
+        variant: "default"
+      },
+      {
+        label: "Save",
+        onClick: () => console.log("Save post"),
+        variant: "ghost"
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=200&fit=crop"
+  },
+  {
+    id: "post-4",
+    title: "State Management in Modern React",
+    description: "Compare different state management solutions for React apps",
+    content: "A detailed comparison of useState, useReducer, Context API, Zustand, and Redux Toolkit for managing application state effectively.",
+    badge: {
+      text: "React",
+      variant: "destructive"
+    },
+    status: "active",
+    headerAction: {
+      icon: <Heart className="h-4 w-4" />,
+      onClick: () => console.log("Like post"),
+      tooltip: "Like this post"
+    },
+    footer: (
+      <div className="flex items-center justify-between w-full text-xs text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <User className="h-3 w-3" />
+          <span>Sarah Wilson</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <MessageCircle className="h-3 w-3" />
+            <span>23</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            <span>3 days ago</span>
+          </div>
+        </div>
+      </div>
+    ),
+    actions: [
+      {
+        label: "Read More",
+        onClick: () => console.log("Read State Management post"),
+        variant: "default"
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=200&fit=crop"
+  }
+]
+
+// Transaction data
+const transactionData: Transaction[] = [
+  {
+    id: "txn-1",
+    userName: "John Smith",
+    userImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+    type: "credit",
+    amount: 250.00,
+    quantity: 5,
+    description: "Product purchase - Premium subscription",
+    timestamp: "2 minutes ago",
+    status: "completed"
+  },
+  {
+    id: "txn-2", 
+    userName: "Emma Johnson",
+    userImage: "https://images.unsplash.com/photo-1494790108755-2616b25b7e54?w=100&h=100&fit=crop&crop=face",
+    type: "debit",
+    amount: 75.50,
+    quantity: 2,
+    description: "Refund processed - Order #12345",
+    timestamp: "15 minutes ago",
+    status: "pending"
+  },
+  {
+    id: "txn-3",
+    userName: "Michael Brown",
+    userImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    type: "credit",
+    amount: 450.00,
+    quantity: 8,
+    description: "Bulk order - Enterprise license",
+    timestamp: "1 hour ago",
+    status: "completed"
+  },
+  {
+    id: "txn-4",
+    userName: "Sarah Wilson",
+    userImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+    type: "credit",
+    amount: 120.00,
+    quantity: 3,
+    description: "Monthly subscription renewal",
+    timestamp: "3 hours ago", 
+    status: "completed"
+  },
+  {
+    id: "txn-5",
+    userName: "David Lee",
+    userImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+    type: "debit",
+    amount: 30.00,
+    quantity: 1,
+    description: "Payment failed - Insufficient funds",
+    timestamp: "6 hours ago",
+    status: "failed"
+  },
+  {
+    id: "txn-6",
+    userName: "Lisa Garcia",
+    userImage: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=100&h=100&fit=crop&crop=face",
+    type: "credit",
+    amount: 89.99,
+    quantity: 4,
+    description: "Add-on features purchase",
+    timestamp: "1 day ago",
+    status: "completed"
+  }
+]
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const handleAddQuantity = (transactionId: string) => {
+    console.log(`Adding quantity for transaction: ${transactionId}`)
+    // Here you would update the transaction quantity in your state management
+  }
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleRemoveQuantity = (transactionId: string) => {
+    console.log(`Removing quantity for transaction: ${transactionId}`)
+    // Here you would update the transaction quantity in your state management
+  }
+  
+  return (
+    <div className="flex-1 p-4 md:p-6 lg:p-8 pt-6">
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+        <p className="text-muted-foreground mt-2">Overview of your projects, analytics, and latest content</p>
+      </div>
+      
+      {/* Charts Grid - Better responsive layout */}
+      <div className="space-y-6 mb-8">
+        {/* Top row - Main bar chart takes full width */}
+        <div className="w-full">
+          <AppBarChart />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        
+        {/* Bottom row - Four columns for charts, transactions, and todo list */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div>
+            <AppAreaChart />
+          </div>
+          <div>
+            <AppPieChart />
+          </div>
+          <div>
+            <TransactionList 
+              transactions={transactionData}
+              onAddQuantity={handleAddQuantity}
+              onRemoveQuantity={handleRemoveQuantity}
+            />
+          </div>
+          <div>
+            <TodoList />
+          </div>
+        </div>
+      </div>
+      
+      {/* Projects Section */}
+      <div className="mb-8">
+        <h3 className="text-2xl font-semibold tracking-tight mb-4">Recent Projects</h3>
+        <CardList items={cardItems} columns={3} />
+      </div>
+
+      {/* Blog Posts Section */}
+      <div className="mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+          <h3 className="text-2xl font-semibold tracking-tight">Latest Blog Posts</h3>
+          <Button 
+            variant="outline" 
+            onClick={() => console.log("View all posts")}
+            className="self-start sm:self-auto"
+          >
+            View All Posts
+          </Button>
+        </div>
+        <CardList items={blogPosts} columns={2} />
+      </div>
     </div>
   );
 }
