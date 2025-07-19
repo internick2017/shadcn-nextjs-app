@@ -5,7 +5,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from "recharts"
+import { Line, LineChart, XAxis, YAxis, CartesianGrid } from "recharts"
 import { TrendingUp } from "lucide-react"
 import { UserPerformanceData } from "@/types/user"
 
@@ -16,15 +16,15 @@ interface UserPerformanceChartProps {
 const performanceChartConfig = {
   commits: {
     label: "Commits",
-    color: "hsl(var(--chart-1))",
+    color: "rgb(239, 68, 68)",
   },
   reviews: {
-    label: "Reviews",
-    color: "hsl(var(--chart-2))",
+    label: "Reviews", 
+    color: "rgb(59, 130, 246)",
   },
   issues: {
     label: "Issues Closed",
-    color: "hsl(var(--chart-3))",
+    color: "rgb(34, 197, 94)",
   },
 } satisfies ChartConfig
 
@@ -40,46 +40,47 @@ export function UserPerformanceChart({ performanceData }: UserPerformanceChartPr
       </CardHeader>
       <CardContent className="h-[300px] p-4">
         <ChartContainer config={performanceChartConfig} className="h-full w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={performanceData} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
-              <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis 
-                dataKey="month" 
-                tickLine={false} 
-                axisLine={false} 
-                tickMargin={8}
-                tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
-              />
-              <YAxis 
-                tickLine={false} 
-                axisLine={false} 
-                tickMargin={8}
-                tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
-              />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Line 
-                dataKey="commits" 
-                stroke="var(--color-commits)" 
-                strokeWidth={2}
-                dot={{ fill: "var(--color-commits)", strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6 }}
-              />
-              <Line 
-                dataKey="reviews" 
-                stroke="var(--color-reviews)" 
-                strokeWidth={2}
-                dot={{ fill: "var(--color-reviews)", strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6 }}
-              />
-              <Line 
-                dataKey="issues" 
-                stroke="var(--color-issues)" 
-                strokeWidth={2}
-                dot={{ fill: "var(--color-issues)", strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <LineChart data={performanceData} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
+            <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <XAxis 
+              dataKey="month" 
+              tickLine={false} 
+              axisLine={false} 
+              tickMargin={8}
+              tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            />
+            <YAxis 
+              tickLine={false} 
+              axisLine={false} 
+              tickMargin={8}
+              tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Line 
+              dataKey="commits" 
+              stroke="var(--color-commits)" 
+              strokeWidth={3}
+              dot={{ fill: "var(--color-commits)", strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, fill: "var(--color-commits)" }}
+              connectNulls={false}
+            />
+            <Line 
+              dataKey="reviews" 
+              stroke="var(--color-reviews)" 
+              strokeWidth={3}
+              dot={{ fill: "var(--color-reviews)", strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, fill: "var(--color-reviews)" }}
+              connectNulls={false}
+            />
+            <Line 
+              dataKey="issues" 
+              stroke="var(--color-issues)" 
+              strokeWidth={3}
+              dot={{ fill: "var(--color-issues)", strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, fill: "var(--color-issues)" }}
+              connectNulls={false}
+            />
+          </LineChart>
         </ChartContainer>
       </CardContent>
     </Card>

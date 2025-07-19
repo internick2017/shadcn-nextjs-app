@@ -5,7 +5,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from "recharts"
+import { Line, LineChart, XAxis, YAxis, CartesianGrid } from "recharts"
 import { Clock } from "lucide-react"
 import { UserActivityTrend } from "@/types/user"
 
@@ -16,7 +16,7 @@ interface UserActivityChartProps {
 const activityChartConfig = {
   activity: {
     label: "Activity Score",
-    color: "hsl(var(--chart-4))",
+    color: "rgb(251, 191, 36)",
   },
 } satisfies ChartConfig
 
@@ -32,34 +32,33 @@ export function UserActivityChart({ activityTrend }: UserActivityChartProps) {
       </CardHeader>
       <CardContent className="h-[250px] p-4">
         <ChartContainer config={activityChartConfig} className="h-full w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={activityTrend} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
-              <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis 
-                dataKey="week" 
-                tickLine={false} 
-                axisLine={false} 
-                tickMargin={8}
-                tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
-              />
-              <YAxis 
-                tickLine={false} 
-                axisLine={false} 
-                tickMargin={8}
-                tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
-                domain={[60, 100]}
-              />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Line 
-                dataKey="activity" 
-                stroke="var(--color-activity)" 
-                strokeWidth={3}
-                dot={{ fill: "var(--color-activity)", strokeWidth: 2, r: 5 }}
-                activeDot={{ r: 7 }}
-                type="monotone"
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <LineChart data={activityTrend} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
+            <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <XAxis 
+              dataKey="week" 
+              tickLine={false} 
+              axisLine={false} 
+              tickMargin={8}
+              tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            />
+            <YAxis 
+              tickLine={false} 
+              axisLine={false} 
+              tickMargin={8}
+              tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+              domain={[60, 100]}
+            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Line 
+              dataKey="activity" 
+              stroke="var(--color-activity)" 
+              strokeWidth={4}
+              dot={{ fill: "var(--color-activity)", strokeWidth: 2, r: 5 }}
+              activeDot={{ r: 7, fill: "var(--color-activity)" }}
+              type="monotone"
+              connectNulls={false}
+            />
+          </LineChart>
         </ChartContainer>
       </CardContent>
     </Card>

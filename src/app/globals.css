@@ -149,12 +149,15 @@
 /* Chart color fix - ensures chart colors work properly */
 @layer components {
   [data-chart] {
+    --color-commits: rgb(239, 68, 68);
+    --color-reviews: rgb(59, 130, 246);
+    --color-issues: rgb(34, 197, 94);
+    --color-activity: rgb(251, 191, 36);
     --color-desktop: rgb(239, 68, 68);
     --color-mobile: rgb(59, 130, 246);
     --color-sales: rgb(239, 68, 68);
     --color-revenue: rgb(59, 130, 246);
     --color-web: rgb(239, 68, 68);
-    --color-desktop: rgb(34, 197, 94);
     --color-other: rgb(251, 191, 36);
   }
 }

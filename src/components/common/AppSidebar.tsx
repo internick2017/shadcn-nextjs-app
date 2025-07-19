@@ -35,6 +35,7 @@ import {
   FolderOpen,
   ChevronRight,
   Users,
+  CreditCard,
 } from "lucide-react"
 import Link from "next/link"
 import {
@@ -73,6 +74,11 @@ const menuItems = [
     title: "Team Members",
     icon: Users,
     url: "/users",
+  },
+  {
+    title: "Payments",
+    icon: CreditCard,
+    url: "/payments",
   },
   {
     title: "Settings",
