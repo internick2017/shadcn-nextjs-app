@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+# Run TypeScript type checking
+echo "🔍 Running TypeScript type check..."
+npm run type-check
+
+# Run lint-staged for linting and formatting
+echo "🧹 Running linting and formatting..."
+npm run pre-commit

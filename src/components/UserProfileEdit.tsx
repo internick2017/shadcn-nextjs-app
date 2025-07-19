@@ -1,38 +1,63 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Edit } from "lucide-react"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Edit } from "lucide-react";
 
 interface UserData {
-  name: string
-  bio: string
-  location: string
-  company: string
-  role: string
-  email: string
-  phone: string
-  website?: string
-  github: string
-  linkedin: string
-  twitter: string
-  experienceLevel?: string
-  workType?: string
+  name: string;
+  bio: string;
+  location: string;
+  company: string;
+  role: string;
+  email: string;
+  phone?: string;
+  website?: string;
+  github?: string;
+  linkedin?: string;
+  twitter?: string;
+  experienceLevel?: string;
+  workType?: string;
 }
 
 interface UserProfileEditProps {
-  user: UserData
-  onSave?: (updatedUser: UserData) => void
+  user: UserData;
+  onSave?: (updatedUser: UserData) => void;
 }
 
 const formSchema = z.object({
@@ -54,26 +79,18 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
-  phone: z.string().min(10, {
-    message: "Phone number must be at least 10 characters.",
-  }),
+  phone: z.string().optional().or(z.literal("")),
   website: z.string().url().optional().or(z.literal("")),
-  github: z.string().min(1, {
-    message: "GitHub username is required.",
-  }),
-  linkedin: z.string().min(1, {
-    message: "LinkedIn username is required.",
-  }),
-  twitter: z.string().min(1, {
-    message: "Twitter username is required.",
-  }),
+  github: z.string().optional().or(z.literal("")),
+  linkedin: z.string().optional().or(z.literal("")),
+  twitter: z.string().optional().or(z.literal("")),
   experienceLevel: z.string().optional(),
   workType: z.string().optional(),
-})
+});
 
 export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
-  const [isEditOpen, setIsEditOpen] = useState(false)
-  
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -83,25 +100,25 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
       company: user.company,
       role: user.role,
       email: user.email,
-      phone: user.phone,
+      phone: user.phone || "",
       website: user.website || "",
-      github: user.github,
-      linkedin: user.linkedin,
-      twitter: user.twitter,
+      github: user.github || "",
+      linkedin: user.linkedin || "",
+      twitter: user.twitter || "",
       experienceLevel: user.experienceLevel || "",
       workType: user.workType || "",
     },
-  })
+  });
 
   const handleSaveProfile = (values: z.infer<typeof formSchema>) => {
     // In a real app, this would make an API call to update the user profile
-    console.log("Saving profile:", values)
+    console.log("Saving profile:", values);
     if (onSave) {
-      onSave(values)
+      onSave(values);
     }
-    setIsEditOpen(false)
+    setIsEditOpen(false);
     // You could also show a success toast here
-  }
+  };
 
   return (
     <Sheet open={isEditOpen} onOpenChange={setIsEditOpen}>
@@ -121,7 +138,7 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
         <SheetHeader>
           <SheetTitle>Edit Profile</SheetTitle>
           <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
+            Make changes to your profile here. Click save when you&apos;re done.
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>
@@ -132,7 +149,7 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
                   <p className="font-medium mb-2">Personal Information</p>
                   <p>Update your basic profile information.</p>
                 </div>
-                
+
                 <FormField
                   control={form.control}
                   name="name"
@@ -176,23 +193,46 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Role</FormLabel>
                       <div className="col-span-3">
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger className="w-full">
                               <SelectValue placeholder="Select your role" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="Frontend Developer">Frontend Developer</SelectItem>
-                            <SelectItem value="Backend Developer">Backend Developer</SelectItem>
-                            <SelectItem value="Full Stack Developer">Full Stack Developer</SelectItem>
-                            <SelectItem value="DevOps Engineer">DevOps Engineer</SelectItem>
-                            <SelectItem value="Product Manager">Product Manager</SelectItem>
-                            <SelectItem value="UI/UX Designer">UI/UX Designer</SelectItem>
-                            <SelectItem value="Data Scientist">Data Scientist</SelectItem>
-                            <SelectItem value="QA Engineer">QA Engineer</SelectItem>
-                            <SelectItem value="Mobile Developer">Mobile Developer</SelectItem>
-                            <SelectItem value="Software Architect">Software Architect</SelectItem>
+                            <SelectItem value="Frontend Developer">
+                              Frontend Developer
+                            </SelectItem>
+                            <SelectItem value="Backend Developer">
+                              Backend Developer
+                            </SelectItem>
+                            <SelectItem value="Full Stack Developer">
+                              Full Stack Developer
+                            </SelectItem>
+                            <SelectItem value="DevOps Engineer">
+                              DevOps Engineer
+                            </SelectItem>
+                            <SelectItem value="Product Manager">
+                              Product Manager
+                            </SelectItem>
+                            <SelectItem value="UI/UX Designer">
+                              UI/UX Designer
+                            </SelectItem>
+                            <SelectItem value="Data Scientist">
+                              Data Scientist
+                            </SelectItem>
+                            <SelectItem value="QA Engineer">
+                              QA Engineer
+                            </SelectItem>
+                            <SelectItem value="Mobile Developer">
+                              Mobile Developer
+                            </SelectItem>
+                            <SelectItem value="Software Architect">
+                              Software Architect
+                            </SelectItem>
                             <SelectItem value="Tech Lead">Tech Lead</SelectItem>
                             <SelectItem value="Other">Other</SelectItem>
                           </SelectContent>
@@ -242,7 +282,10 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Experience</FormLabel>
                       <div className="col-span-3">
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger className="w-full">
                               <SelectValue placeholder="Select experience level" />
@@ -250,11 +293,21 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
                           </FormControl>
                           <SelectContent>
                             <SelectItem value="Intern">Intern</SelectItem>
-                            <SelectItem value="Junior (0-2 years)">Junior (0-2 years)</SelectItem>
-                            <SelectItem value="Mid-level (2-5 years)">Mid-level (2-5 years)</SelectItem>
-                            <SelectItem value="Senior (5-8 years)">Senior (5-8 years)</SelectItem>
-                            <SelectItem value="Lead (8+ years)">Lead (8+ years)</SelectItem>
-                            <SelectItem value="Principal/Staff">Principal/Staff</SelectItem>
+                            <SelectItem value="Junior (0-2 years)">
+                              Junior (0-2 years)
+                            </SelectItem>
+                            <SelectItem value="Mid-level (2-5 years)">
+                              Mid-level (2-5 years)
+                            </SelectItem>
+                            <SelectItem value="Senior (5-8 years)">
+                              Senior (5-8 years)
+                            </SelectItem>
+                            <SelectItem value="Lead (8+ years)">
+                              Lead (8+ years)
+                            </SelectItem>
+                            <SelectItem value="Principal/Staff">
+                              Principal/Staff
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -270,7 +323,10 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
                     <FormItem className="grid grid-cols-4 items-center gap-4">
                       <FormLabel className="text-right">Work Type</FormLabel>
                       <div className="col-span-3">
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger className="w-full">
                               <SelectValue placeholder="Select work preference" />
@@ -288,23 +344,25 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
                     </FormItem>
                   )}
                 />
-                
+
                 <Separator className="my-4" />
-                
+
                 <div className="text-sm text-muted-foreground mb-4">
                   <p className="font-medium mb-2">Contact Information</p>
                   <p>Update your contact details.</p>
                 </div>
-                
+
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-4 items-center gap-4">
-                      <FormLabel className="text-right">Email</FormLabel>
+                      <FormLabel className="text-right">
+                        Email address
+                      </FormLabel>
                       <div className="col-span-3">
                         <FormControl>
-                          <Input {...field} type="email" />
+                          <Input placeholder="john@example.com" {...field} />
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -336,21 +394,27 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
                       <FormLabel className="text-right">Website</FormLabel>
                       <div className="col-span-3">
                         <FormControl>
-                          <Input {...field} placeholder="https://yourwebsite.com" />
+                          <Input
+                            {...field}
+                            placeholder="https://yourwebsite.com"
+                          />
                         </FormControl>
                         <FormMessage />
                       </div>
                     </FormItem>
                   )}
                 />
-                
+
                 <Separator className="my-4" />
-                
+
                 <div className="text-sm text-muted-foreground mb-4">
                   <p className="font-medium mb-2">Social Links</p>
-                  <p>Update your social media profiles to help others connect with you.</p>
+                  <p>
+                    Update your social media profiles to help others connect
+                    with you.
+                  </p>
                 </div>
-                
+
                 <FormField
                   control={form.control}
                   name="github"
@@ -401,16 +465,18 @@ export function UserProfileEdit({ user, onSave }: UserProfileEditProps) {
               </div>
             </ScrollArea>
             <div className="flex justify-end space-x-2 pt-4 border-t">
-              <Button variant="outline" type="button" onClick={() => setIsEditOpen(false)}>
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => setIsEditOpen(false)}
+              >
                 Cancel
               </Button>
-              <Button type="submit">
-                Save Changes
-              </Button>
+              <Button type="submit">Save Changes</Button>
             </div>
           </form>
         </Form>
       </SheetContent>
     </Sheet>
-  )
-} 
+  );
+}
