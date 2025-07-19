@@ -15,7 +15,7 @@ import {
   UserAchievements,
   UserQuickActions,
 } from "@/components/user";
-import { User, UserProfileProps, UserSkill } from "@/types/user";
+import { User, UserSkill } from "@/types/user";
 import { getUserById } from "@/data/users";
 
 // Get user data from centralized data source

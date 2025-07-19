@@ -1,10 +1,8 @@
-"use client"
+"use client";
 
-import {
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,29 +10,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { 
-  Search, 
-  User, 
-  Settings, 
-  LogOut,
-  Moon,
-  Sun,
-  Home,
-} from "lucide-react"
-import { Separator } from "@/components/ui/separator"
-import { useTheme } from "next-themes"
-import Link from "next/link"
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Search, User, Settings, LogOut, Moon, Sun, Home } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { useTheme } from "next-themes";
+import Link from "next/link";
 
 export function Navbar() {
-  const { setTheme, theme } = useTheme()
+  const { setTheme } = useTheme();
 
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 border-b border-sidebar-border px-4">
       <SidebarTrigger className="-ml-1" />
       <Separator orientation="vertical" className="mr-2 h-4" />
-      
+
       {/* Dashboard Link */}
       <Link href="/">
         <Button variant="ghost" className="flex items-center gap-2">
@@ -42,19 +32,15 @@ export function Navbar() {
           <span>Dashboard</span>
         </Button>
       </Link>
-      
+
       {/* Search */}
       <div className="flex flex-1 items-center gap-2">
         <div className="relative max-w-md flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search..."
-            className="pl-8"
-          />
+          <Input type="search" placeholder="Search..." className="pl-8" />
         </div>
       </div>
-      
+
       {/* Right side actions */}
       <div className="flex items-center gap-2">
         {/* Theme toggle */}
@@ -81,7 +67,7 @@ export function Navbar() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        
+
         {/* User menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -112,5 +98,5 @@ export function Navbar() {
         </DropdownMenu>
       </div>
     </header>
-  )
-} 
+  );
+}

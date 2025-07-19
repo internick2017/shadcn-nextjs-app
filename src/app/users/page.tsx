@@ -25,10 +25,7 @@ import {
   Star,
   Users,
   MessageCircle,
-  Search,
   CheckCircle,
-  Filter,
-  Plus,
   UserPlus,
 } from "lucide-react";
 import Link from "next/link";
@@ -39,9 +36,6 @@ import { userSummaries } from "@/data/users";
 
 // Re-export User type for backward compatibility
 export type User = UserSummary;
-
-// Use users data from centralized data file
-const users = userSummaries;
 
 // Define columns for the users table
 const columns: ColumnDef<User>[] = [

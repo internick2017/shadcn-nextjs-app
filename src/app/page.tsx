@@ -12,16 +12,7 @@ import { projectCards } from "@/data/projects";
 import { transactions } from "@/data/transactions";
 import { blogPosts } from "@/data/blogs";
 import { TodoList } from "@/components/TodoList";
-import {
-  MoreHorizontal,
-  Star,
-  Clock,
-  CheckCircle,
-  Calendar,
-  User,
-  MessageCircle,
-  Heart,
-} from "lucide-react";
+import { MoreHorizontal, Star, Clock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // Enhanced card data showcasing all functionalities - using centralized project data

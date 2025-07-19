@@ -1,35 +1,54 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Badge } from "@/components/ui/badge"
-import { Calendar } from "@/components/ui/calendar"
-import { Plus, Trash2, Calendar as CalendarIcon, MoreHorizontal } from "lucide-react"
-import { format } from "date-fns"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Plus,
+  Trash2,
+  Calendar as CalendarIcon,
+  MoreHorizontal,
+} from "lucide-react";
+import { format } from "date-fns";
 
-import { TodoItem } from "@/types/todo"
+import { TodoItem, TodoPriority } from "@/types/todo";
 
 // Re-export for backward compatibility
-export type { TodoItem }
+export type { TodoItem };
 
 interface TodoListProps {
-  className?: string
+  className?: string;
 }
 
-import { todos } from "@/data/todos"
+import { todos } from "@/data/todos";
 
-const initialTodos: TodoItem[] = todos
+const initialTodos: TodoItem[] = todos;
 
 export function TodoList({ className }: TodoListProps) {
-  const [todos, setTodos] = useState<TodoItem[]>(initialTodos)
-  const [newTodo, setNewTodo] = useState("")
-  const [newTodoPriority, setNewTodoPriority] = useState<"low" | "medium" | "high">("medium")
-  const [newTodoDueDate, setNewTodoDueDate] = useState<Date | undefined>(undefined)
+  const [todos, setTodos] = useState<TodoItem[]>(initialTodos);
+  const [newTodo, setNewTodo] = useState("");
+  const [newTodoPriority, setNewTodoPriority] = useState<
+    "low" | "medium" | "high"
+  >("medium");
+  const [newTodoDueDate, setNewTodoDueDate] = useState<Date | undefined>(
+    undefined
+  );
 
   const addTodo = () => {
     if (newTodo.trim()) {
@@ -38,45 +57,57 @@ export function TodoList({ className }: TodoListProps) {
         text: newTodo.trim(),
         completed: false,
         priority: newTodoPriority,
-        dueDate: newTodoDueDate ? format(newTodoDueDate, "yyyy-MM-dd") : undefined,
-        createdAt: new Date().toISOString().split('T')[0]
-      }
-      setTodos([todo, ...todos])
-      setNewTodo("")
-      setNewTodoDueDate(undefined)
+        dueDate: newTodoDueDate
+          ? format(newTodoDueDate, "yyyy-MM-dd")
+          : undefined,
+        createdAt: new Date().toISOString().split("T")[0],
+      };
+      setTodos([todo, ...todos]);
+      setNewTodo("");
+      setNewTodoDueDate(undefined);
     }
-  }
+  };
 
   const toggleTodo = (id: string) => {
-    setTodos(todos.map(todo => 
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ))
-  }
+    setTodos(
+      todos.map(todo =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
 
   const deleteTodo = (id: string) => {
-    setTodos(todos.filter(todo => todo.id !== id))
-  }
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
 
   const updateTodoDueDate = (id: string, date: Date | undefined) => {
-    setTodos(todos.map(todo => 
-      todo.id === id ? { 
-        ...todo, 
-        dueDate: date ? format(date, "yyyy-MM-dd") : undefined 
-      } : todo
-    ))
-  }
+    setTodos(
+      todos.map(todo =>
+        todo.id === id
+          ? {
+              ...todo,
+              dueDate: date ? format(date, "yyyy-MM-dd") : undefined,
+            }
+          : todo
+      )
+    );
+  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "high": return "destructive"
-      case "medium": return "default"
-      case "low": return "secondary"
-      default: return "outline"
+      case "high":
+        return "destructive";
+      case "medium":
+        return "default";
+      case "low":
+        return "secondary";
+      default:
+        return "outline";
     }
-  }
+  };
 
-  const completedCount = todos.filter(todo => todo.completed).length
-  const totalCount = todos.length
+  const completedCount = todos.filter(todo => todo.completed).length;
+  const totalCount = todos.length;
 
   return (
     <Card className={className}>
@@ -99,29 +130,35 @@ export function TodoList({ className }: TodoListProps) {
           <Input
             placeholder="Add a new task..."
             value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && addTodo()}
+            onChange={e => setNewTodo(e.target.value)}
+            onKeyPress={e => e.key === "Enter" && addTodo()}
             className="flex-1"
           />
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm">
-                <Badge variant={getPriorityColor(newTodoPriority)} className="text-xs">
+                <Badge
+                  variant={getPriorityColor(newTodoPriority)}
+                  className="text-xs"
+                >
                   {newTodoPriority}
                 </Badge>
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-40 p-2">
               <div className="space-y-1">
-                {["high", "medium", "low"].map((priority) => (
+                {["high", "medium", "low"].map(priority => (
                   <Button
                     key={priority}
                     variant="ghost"
                     size="sm"
                     className="w-full justify-start"
-                    onClick={() => setNewTodoPriority(priority as any)}
+                    onClick={() => setNewTodoPriority(priority as TodoPriority)}
                   >
-                    <Badge variant={getPriorityColor(priority)} className="text-xs mr-2">
+                    <Badge
+                      variant={getPriorityColor(priority)}
+                      className="text-xs mr-2"
+                    >
                       {priority}
                     </Badge>
                     {priority.charAt(0).toUpperCase() + priority.slice(1)}
@@ -171,7 +208,7 @@ export function TodoList({ className }: TodoListProps) {
                 No tasks yet. Add one above!
               </div>
             ) : (
-              todos.map((todo) => (
+              todos.map(todo => (
                 <div
                   key={todo.id}
                   className={`flex items-center space-x-3 p-3 rounded-lg border ${
@@ -183,13 +220,20 @@ export function TodoList({ className }: TodoListProps) {
                     onCheckedChange={() => toggleTodo(todo.id)}
                   />
                   <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-medium ${
-                      todo.completed ? "line-through text-muted-foreground" : ""
-                    }`}>
+                    <p
+                      className={`text-sm font-medium ${
+                        todo.completed
+                          ? "line-through text-muted-foreground"
+                          : ""
+                      }`}
+                    >
                       {todo.text}
                     </p>
                     <div className="flex items-center gap-2 mt-1">
-                      <Badge variant={getPriorityColor(todo.priority)} className="text-xs">
+                      <Badge
+                        variant={getPriorityColor(todo.priority)}
+                        className="text-xs"
+                      >
                         {todo.priority}
                       </Badge>
                       {todo.dueDate && (
@@ -201,14 +245,18 @@ export function TodoList({ className }: TodoListProps) {
                               className="h-auto p-0 text-xs text-muted-foreground hover:text-foreground"
                             >
                               <CalendarIcon className="h-3 w-3 mr-1" />
-                              <span>{format(new Date(todo.dueDate), "MMM dd, yyyy")}</span>
+                              <span>
+                                {format(new Date(todo.dueDate), "MMM dd, yyyy")}
+                              </span>
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0" align="start">
                             <Calendar
                               mode="single"
                               selected={new Date(todo.dueDate)}
-                              onSelect={(date) => updateTodoDueDate(todo.id, date)}
+                              onSelect={date =>
+                                updateTodoDueDate(todo.id, date)
+                              }
                               initialFocus
                             />
                             <div className="p-3 border-t">
@@ -216,7 +264,9 @@ export function TodoList({ className }: TodoListProps) {
                                 variant="outline"
                                 size="sm"
                                 className="w-full"
-                                onClick={() => updateTodoDueDate(todo.id, undefined)}
+                                onClick={() =>
+                                  updateTodoDueDate(todo.id, undefined)
+                                }
                               >
                                 Remove date
                               </Button>
@@ -246,11 +296,16 @@ export function TodoList({ className }: TodoListProps) {
                                 Add due date
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
                               <Calendar
                                 mode="single"
                                 selected={undefined}
-                                onSelect={(date) => updateTodoDueDate(todo.id, date)}
+                                onSelect={date =>
+                                  updateTodoDueDate(todo.id, date)
+                                }
                                 initialFocus
                               />
                             </PopoverContent>
@@ -275,5 +330,5 @@ export function TodoList({ className }: TodoListProps) {
         </ScrollArea>
       </CardContent>
     </Card>
-  )
-} 
+  );
+}

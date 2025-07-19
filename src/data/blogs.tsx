@@ -1,9 +1,7 @@
 import React from "react";
 import { CardItem } from "@/components/common/CardList";
 import {
-  MoreHorizontal,
   Star,
-  Clock,
   CheckCircle,
   Calendar,
   User,

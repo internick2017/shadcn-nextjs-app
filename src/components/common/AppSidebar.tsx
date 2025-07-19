@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupAction,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
@@ -16,28 +15,23 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 import {
   Home,
   Settings,
-  Mail,
-  Calendar,
-  Search,
   User,
   LogOut,
   ChevronUp,
   Plus,
   FolderOpen,
   ChevronRight,
-  Users,
-  CreditCard,
-} from "lucide-react"
-import Link from "next/link"
+} from "lucide-react";
+import Link from "next/link";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,29 +39,34 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { menuItems, userProfiles } from "@/data/navigation"
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { menuItems, userProfiles } from "@/data/navigation";
 
 export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="border-b border-sidebar-border">
-        <Link href="/" className="flex items-center gap-2 px-2 py-2 hover:bg-sidebar-accent rounded-md transition-colors">
+        <Link
+          href="/"
+          className="flex items-center gap-2 px-2 py-2 hover:bg-sidebar-accent rounded-md transition-colors"
+        >
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
             <Home className="h-4 w-4" />
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold">My App</span>
-            <span className="text-xs text-sidebar-foreground/70">Dashboard</span>
+            <span className="text-xs text-sidebar-foreground/70">
+              Dashboard
+            </span>
           </div>
         </Link>
       </SidebarHeader>
-      
+
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {menuItems.map((item) => (
+            {menuItems.map(item => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
                   <Link href={item.url} className="flex items-center gap-2">
@@ -93,14 +92,20 @@ export function AppSidebar() {
             </SidebarGroupLabel>
             <CollapsibleContent>
               <SidebarMenu>
-                {userProfiles.map((user) => (
+                {userProfiles.map(user => (
                   <SidebarMenuItem key={user.id}>
                     <SidebarMenuButton asChild>
-                      <Link href={`/user/${user.id}`} className="flex items-center gap-2">
+                      <Link
+                        href={`/user/${user.id}`}
+                        className="flex items-center gap-2"
+                      >
                         <Avatar className="h-4 w-4">
                           <AvatarImage src={user.avatar} alt={user.name} />
                           <AvatarFallback className="text-xs">
-                            {user.name.split(' ').map(n => n[0]).join('')}
+                            {user.name
+                              .split(" ")
+                              .map(n => n[0])
+                              .join("")}
                           </AvatarFallback>
                         </Avatar>
                         <span className="truncate">{user.name}</span>
@@ -112,16 +117,16 @@ export function AppSidebar() {
             </CollapsibleContent>
           </SidebarGroup>
         </Collapsible>
-        
+
         <Collapsible defaultOpen className="group/collapsible">
           <SidebarGroup>
             <SidebarGroupLabel asChild>
               <CollapsibleTrigger className="flex w-full items-center gap-2 text-left">
                 Projects
-                <Link 
-                  href="/projects/new" 
+                <Link
+                  href="/projects/new"
                   className="ml-auto mr-1 flex h-4 w-4 items-center justify-center rounded-sm hover:bg-sidebar-accent"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={e => e.stopPropagation()}
                   title="Add Project"
                 >
                   <Plus className="h-3 w-3" />
@@ -141,7 +146,10 @@ export function AppSidebar() {
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <Link href="/projects/new" className="flex items-center gap-2">
+                    <Link
+                      href="/projects/new"
+                      className="flex items-center gap-2"
+                    >
                       <Plus className="h-4 w-4" />
                       <span>Add Project</span>
                     </Link>
@@ -181,7 +189,7 @@ export function AppSidebar() {
           </SidebarGroup>
         </Collapsible>
       </SidebarContent>
-      
+
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -197,7 +205,9 @@ export function AppSidebar() {
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">John Doe</span>
-                    <span className="truncate text-xs">john.doe@example.com</span>
+                    <span className="truncate text-xs">
+                      john.doe@example.com
+                    </span>
                   </div>
                   <ChevronUp className="ml-auto size-4" />
                 </SidebarMenuButton>
@@ -216,7 +226,9 @@ export function AppSidebar() {
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">John Doe</span>
-                      <span className="truncate text-xs">john.doe@example.com</span>
+                      <span className="truncate text-xs">
+                        john.doe@example.com
+                      </span>
                     </div>
                   </div>
                 </DropdownMenuLabel>
@@ -239,8 +251,8 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
-      
+
       <SidebarRail />
     </Sidebar>
-  )
-} 
+  );
+}

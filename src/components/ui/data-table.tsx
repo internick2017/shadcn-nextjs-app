@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   ColumnDef,
@@ -11,11 +11,19 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -24,15 +32,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -40,14 +48,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { useState } from "react"
+} from "@/components/ui/table";
+import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  searchKey?: string
-  searchPlaceholder?: string
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  searchKey?: string;
+  searchPlaceholder?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -56,10 +64,10 @@ export function DataTable<TData, TValue>({
   searchKey,
   searchPlaceholder = "Search...",
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = useState({})
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -83,7 +91,7 @@ export function DataTable<TData, TValue>({
         pageSize: 10,
       },
     },
-  })
+  });
 
   return (
     <div className="w-full">
@@ -91,8 +99,10 @@ export function DataTable<TData, TValue>({
         {searchKey && (
           <Input
             placeholder={searchPlaceholder}
-            value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
+            value={
+              (table.getColumn(searchKey)?.getFilterValue() as string) ?? ""
+            }
+            onChange={event =>
               table.getColumn(searchKey)?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
@@ -107,20 +117,18 @@ export function DataTable<TData, TValue>({
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
+              .filter(column => column.getCanHide())
+              .map(column => {
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
+                    onCheckedChange={value => column.toggleVisibility(!!value)}
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -128,9 +136,9 @@ export function DataTable<TData, TValue>({
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers.map(header => {
                   return (
                     <TableHead key={header.id}>
                       {header.isPlaceholder
@@ -140,19 +148,19 @@ export function DataTable<TData, TValue>({
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map(row => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -175,22 +183,22 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      
+
       {/* Enhanced Pagination Controls */}
       <div className="flex items-center justify-between space-x-6 py-4">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value))
+            onValueChange={value => {
+              table.setPageSize(Number(value));
             }}
           >
             <SelectTrigger className="h-8 w-[70px]">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
-              {[10, 20, 30, 40, 50].map((pageSize) => (
+              {[10, 20, 30, 40, 50].map(pageSize => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
@@ -198,7 +206,7 @@ export function DataTable<TData, TValue>({
             </SelectContent>
           </Select>
         </div>
-        
+
         <div className="flex items-center space-x-6 lg:space-x-8">
           <div className="flex w-[100px] items-center justify-center text-sm font-medium">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
@@ -244,53 +252,75 @@ export function DataTable<TData, TValue>({
           </div>
         </div>
       </div>
-      
+
       <div className="flex items-center justify-between">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-          Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{" "}
+          Showing{" "}
+          {table.getState().pagination.pageIndex *
+            table.getState().pagination.pageSize +
+            1}{" "}
+          to{" "}
           {Math.min(
-            (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+            (table.getState().pagination.pageIndex + 1) *
+              table.getState().pagination.pageSize,
             table.getFilteredRowModel().rows.length
           )}{" "}
           of {table.getFilteredRowModel().rows.length} entries
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // Utility components for common column types
 export const SelectColumn = {
   id: "select",
-  header: ({ table }: any) => (
+  header: ({
+    table,
+  }: {
+    table: {
+      getIsAllPageRowsSelected: () => boolean;
+      getIsSomePageRowsSelected: () => boolean;
+      toggleAllPageRowsSelected: (value: boolean) => void;
+    };
+  }) => (
     <Checkbox
       checked={
         table.getIsAllPageRowsSelected() ||
         (table.getIsSomePageRowsSelected() && "indeterminate")
       }
-      onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+      onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
       aria-label="Select all"
     />
   ),
-  cell: ({ row }: any) => (
+  cell: ({
+    row,
+  }: {
+    row: {
+      getIsSelected: () => boolean;
+      toggleSelected: (value: boolean) => void;
+    };
+  }) => (
     <Checkbox
       checked={row.getIsSelected()}
-      onCheckedChange={(value) => row.toggleSelected(!!value)}
+      onCheckedChange={value => row.toggleSelected(!!value)}
       aria-label="Select row"
     />
   ),
   enableSorting: false,
   enableHiding: false,
-}
+};
 
-export const ActionsColumn = (actions: { label: string; onClick: (row: any) => void }[]) => ({
+export const ActionsColumn = <T,>(
+  actions: { label: string; onClick: (row: T) => void }[]
+) => ({
   id: "actions",
   enableHiding: false,
-  cell: ({ row }: any) => {
+  cell: ({ row }: { row: { original: T } }) => {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -312,12 +342,21 @@ export const ActionsColumn = (actions: { label: string; onClick: (row: any) => v
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-    )
+    );
   },
-})
+});
 
 // Utility function for sortable headers
-export const SortableHeader = ({ column, children }: { column: any; children: React.ReactNode }) => {
+export const SortableHeader = ({
+  column,
+  children,
+}: {
+  column: {
+    toggleSorting: (value: boolean) => void;
+    getIsSorted: () => false | "asc" | "desc";
+  };
+  children: React.ReactNode;
+}) => {
   return (
     <Button
       variant="ghost"
@@ -326,5 +365,5 @@ export const SortableHeader = ({ column, children }: { column: any; children: Re
       {children}
       <ArrowUpDown className="ml-2 h-4 w-4" />
     </Button>
-  )
-} 
+  );
+};
