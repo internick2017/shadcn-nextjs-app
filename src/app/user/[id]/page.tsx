@@ -1,5 +1,6 @@
 "use client"
 
+import { use } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -19,7 +20,6 @@ import {
   Star,
   Users,
   MessageCircle,
-  Edit,
   MoreHorizontal,
   CheckCircle,
   Clock,
@@ -28,9 +28,10 @@ import {
   TrendingUp
 } from "lucide-react"
 import { TodoList } from "@/components/TodoList"
+import { UserProfileEdit } from "@/components/UserProfileEdit"
 
 interface UserProfileProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 // Mock user data - in a real app, this would come from an API
@@ -162,7 +163,14 @@ const getActivityIcon = (type: string) => {
 }
 
 export default function UserProfilePage({ params }: UserProfileProps) {
-  const user = getUserData(params.id)
+  const { id } = use(params)
+  const user = getUserData(id)
+
+  const handleSaveProfile = (updatedUser: any) => {
+    // In a real app, this would make an API call to update the user profile
+    console.log("Saving profile:", updatedUser)
+    // You could also show a success toast here
+  }
   
   return (
     <div className="flex-1 p-4 md:p-6 lg:p-8 pt-6">
@@ -200,16 +208,7 @@ export default function UserProfilePage({ params }: UserProfileProps) {
             </Tooltip>
           </TooltipProvider>
           
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="secondary" size="sm">
-                  <Edit className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Edit Profile</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <UserProfileEdit user={user} onSave={handleSaveProfile} />
           
           <TooltipProvider>
             <Tooltip>
@@ -322,10 +321,10 @@ export default function UserProfilePage({ params }: UserProfileProps) {
         </TooltipProvider>
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Main Content - Two Column Responsive Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
-        {/* Left Column - Skills, Stats, Achievements */}
+        {/* Left Column */}
         <div className="space-y-6">
           {/* Skills */}
           <Card>
@@ -336,9 +335,9 @@ export default function UserProfilePage({ params }: UserProfileProps) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {user.skills.map((skill, index) => (
-                  <div key={index} className="flex items-center justify-between">
+                  <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                     <span className="font-medium">{skill.name}</span>
                     <Badge className={getSkillLevelColor(skill.level)}>
                       {skill.level}
@@ -359,54 +358,100 @@ export default function UserProfilePage({ params }: UserProfileProps) {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
+                <div className="text-center p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
                   <div className="text-2xl font-bold text-blue-600">{user.stats.projectsCompleted}</div>
-                  <div className="text-xs text-muted-foreground">Projects Completed</div>
+                  <div className="text-sm text-muted-foreground">Projects Completed</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg">
                   <div className="text-2xl font-bold text-green-600">{user.stats.codeReviews}</div>
-                  <div className="text-xs text-muted-foreground">Code Reviews</div>
+                  <div className="text-sm text-muted-foreground">Code Reviews</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center p-4 bg-purple-50 dark:bg-purple-950/20 rounded-lg">
                   <div className="text-2xl font-bold text-purple-600">{user.stats.linesOfCode.toLocaleString()}</div>
-                  <div className="text-xs text-muted-foreground">Lines of Code</div>
+                  <div className="text-sm text-muted-foreground">Lines of Code</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center p-4 bg-orange-50 dark:bg-orange-950/20 rounded-lg">
                   <div className="text-2xl font-bold text-orange-600">{user.stats.bugsFixed}</div>
-                  <div className="text-xs text-muted-foreground">Bugs Fixed</div>
+                  <div className="text-sm text-muted-foreground">Bugs Fixed</div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Achievements */}
+          {/* Contact Information */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Award className="h-5 w-5" />
-                Recent Achievements
+                <Users className="h-5 w-5" />
+                Contact Information
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {user.achievements.map((achievement, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className="text-2xl">{achievement.icon}</div>
-                    <div className="flex-1">
-                      <div className="font-medium">{achievement.title}</div>
-                      <div className="text-sm text-muted-foreground">{achievement.description}</div>
-                      <div className="text-xs text-muted-foreground mt-1">
-                        {new Date(achievement.date).toLocaleDateString()}
-                      </div>
-                    </div>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                  <Mail className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium text-sm">Email</div>
+                    <div className="text-xs text-muted-foreground">{user.email}</div>
                   </div>
-                ))}
+                </div>
+                
+                <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                  <Phone className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium text-sm">Phone</div>
+                    <div className="text-xs text-muted-foreground">{user.phone}</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                  <MapPin className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium text-sm">Location</div>
+                    <div className="text-xs text-muted-foreground">{user.location}</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                  <Building className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium text-sm">Company</div>
+                    <div className="text-xs text-muted-foreground">{user.company}</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Quick Actions */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-3">
+                <Button className="w-full" variant="default">
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Message
+                </Button>
+                <Button className="w-full" variant="outline">
+                  <Users className="h-4 w-4 mr-2" />
+                  Add to Team
+                </Button>
+                <Button className="w-full" variant="outline">
+                  <Star className="h-4 w-4 mr-2" />
+                  Follow
+                </Button>
+                <Button className="w-full" variant="outline">
+                  <Github className="h-4 w-4 mr-2" />
+                  GitHub
+                </Button>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Middle Column - Activity & Todo */}
+        {/* Right Column */}
         <div className="space-y-6">
           {/* Recent Activity */}
           <Card>
@@ -418,10 +463,10 @@ export default function UserProfilePage({ params }: UserProfileProps) {
               <CardDescription>Latest contributions and updates</CardDescription>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="h-[300px]">
+              <ScrollArea className="h-[400px]">
                 <div className="space-y-4 pr-4">
                   {user.recentActivity.map((activity, index) => (
-                    <div key={index} className="flex items-start gap-3">
+                    <div key={index} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
                       {getActivityIcon(activity.type)}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium">{activity.message}</p>
@@ -439,85 +484,34 @@ export default function UserProfilePage({ params }: UserProfileProps) {
             </CardContent>
           </Card>
 
-          {/* Todo List */}
-          <TodoList />
-        </div>
-
-        {/* Right Column - Additional Info */}
-        <div className="space-y-6">
-          {/* Contact Information */}
+          {/* Achievements */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                Contact Information
+                <Award className="h-5 w-5" />
+                Recent Achievements
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Mail className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <div className="font-medium">Email</div>
-                  <div className="text-sm text-muted-foreground">{user.email}</div>
-                </div>
-              </div>
-              
-              <Separator />
-              
-              <div className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <div className="font-medium">Phone</div>
-                  <div className="text-sm text-muted-foreground">{user.phone}</div>
-                </div>
-              </div>
-              
-              <Separator />
-              
-              <div className="flex items-center gap-3">
-                <MapPin className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <div className="font-medium">Location</div>
-                  <div className="text-sm text-muted-foreground">{user.location}</div>
-                </div>
-              </div>
-              
-              <Separator />
-              
-              <div className="flex items-center gap-3">
-                <Building className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <div className="font-medium">Company</div>
-                  <div className="text-sm text-muted-foreground">{user.company}</div>
-                </div>
+            <CardContent>
+              <div className="space-y-4">
+                {user.achievements.map((achievement, index) => (
+                  <div key={index} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg">
+                    <div className="text-2xl">{achievement.icon}</div>
+                    <div className="flex-1">
+                      <div className="font-medium">{achievement.title}</div>
+                      <div className="text-sm text-muted-foreground">{achievement.description}</div>
+                      <div className="text-xs text-muted-foreground mt-1">
+                        {new Date(achievement.date).toLocaleDateString()}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
 
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button className="w-full" variant="default">
-                <MessageCircle className="h-4 w-4 mr-2" />
-                Send Message
-              </Button>
-              <Button className="w-full" variant="outline">
-                <Users className="h-4 w-4 mr-2" />
-                Add to Team
-              </Button>
-              <Button className="w-full" variant="outline">
-                <Star className="h-4 w-4 mr-2" />
-                Follow User
-              </Button>
-              <Button className="w-full" variant="outline">
-                <Github className="h-4 w-4 mr-2" />
-                View GitHub
-              </Button>
-            </CardContent>
-          </Card>
+          {/* Todo List */}
+          <TodoList />
         </div>
       </div>
     </div>
