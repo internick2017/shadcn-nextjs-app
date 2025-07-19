@@ -1,41 +1,24 @@
 "use client"
 
 import { use } from "react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { 
-  MapPin, 
-  Calendar, 
-  Mail, 
-  Phone, 
-  Github, 
-  Linkedin, 
-  Twitter,
-  Building,
-  Star,
-  Users,
-  MessageCircle,
-  MoreHorizontal,
-  CheckCircle,
-  Clock,
-  Award,
-  Target,
-  TrendingUp
-} from "lucide-react"
 import { TodoList } from "@/components/TodoList"
-import { UserProfileEdit } from "@/components/UserProfileEdit"
-import { SelectTest } from "@/components/SelectTest"
-
-interface UserProfileProps {
-  params: Promise<{ id: string }>
-}
+import { 
+  UserProfileHeader,
+  UserContactInfo,
+  UserContactCard,
+  UserSkills,
+  UserStats,
+  UserTeamMembers,
+  UserPerformanceChart,
+  UserActivityChart,
+  UserRecentActivity,
+  UserAchievements,
+  UserQuickActions
+} from "@/components/user"
+import { User, UserProfileProps } from "@/types/user"
 
 // Mock user data - in a real app, this would come from an API
-const getUserData = (id: string) => {
+const getUserData = (id: string): User => {
   const users = {
     "1": {
       id: "1",
@@ -54,19 +37,35 @@ const getUserData = (id: string) => {
       github: "sarah_dev",
       linkedin: "sarah-johnson-dev",
       twitter: "sarah_codes",
-      status: "active",
+      status: "active" as const,
       verified: true,
       followers: 2847,
       following: 892,
       posts: 156,
+      performanceData: [
+        { month: "Jan", commits: 45, reviews: 23, issues: 8 },
+        { month: "Feb", commits: 52, reviews: 31, issues: 12 },
+        { month: "Mar", commits: 38, reviews: 28, issues: 6 },
+        { month: "Apr", commits: 67, reviews: 35, issues: 15 },
+        { month: "May", commits: 59, reviews: 42, issues: 9 },
+        { month: "Jun", commits: 73, reviews: 38, issues: 11 },
+      ],
+      activityTrend: [
+        { week: "W1", activity: 85 },
+        { week: "W2", activity: 92 },
+        { week: "W3", activity: 78 },
+        { week: "W4", activity: 95 },
+        { week: "W5", activity: 88 },
+        { week: "W6", activity: 94 },
+      ],
       skills: [
-        { name: "React", level: "Expert", color: "blue" },
-        { name: "TypeScript", level: "Expert", color: "blue" },
-        { name: "Next.js", level: "Advanced", color: "green" },
-        { name: "Node.js", level: "Advanced", color: "green" },
-        { name: "Python", level: "Intermediate", color: "yellow" },
-        { name: "GraphQL", level: "Intermediate", color: "yellow" },
-        { name: "AWS", level: "Beginner", color: "red" }
+        { name: "React", level: "Expert" as const, color: "blue" },
+        { name: "TypeScript", level: "Expert" as const, color: "blue" },
+        { name: "Next.js", level: "Advanced" as const, color: "green" },
+        { name: "Node.js", level: "Advanced" as const, color: "green" },
+        { name: "Python", level: "Intermediate" as const, color: "yellow" },
+        { name: "GraphQL", level: "Intermediate" as const, color: "yellow" },
+        { name: "AWS", level: "Beginner" as const, color: "red" }
       ],
       achievements: [
         { title: "Top Contributor", description: "Most active contributor this quarter", icon: "🏆", date: "2024-01-15" },
@@ -74,10 +73,10 @@ const getUserData = (id: string) => {
         { title: "Innovation Award", description: "Led the implementation of new design system", icon: "💡", date: "2023-12-10" }
       ],
       recentActivity: [
-        { type: "commit", message: "Updated user authentication flow", time: "2 hours ago", repo: "web-app" },
-        { type: "review", message: "Reviewed PR #234: Add dark mode support", time: "4 hours ago", repo: "ui-components" },
-        { type: "issue", message: "Created issue: Improve loading states", time: "1 day ago", repo: "dashboard" },
-        { type: "comment", message: "Commented on issue #567", time: "2 days ago", repo: "api" }
+        { type: "commit" as const, message: "Updated user authentication flow", time: "2 hours ago", repo: "web-app" },
+        { type: "review" as const, message: "Reviewed PR #234: Add dark mode support", time: "4 hours ago", repo: "ui-components" },
+        { type: "issue" as const, message: "Created issue: Improve loading states", time: "1 day ago", repo: "dashboard" },
+        { type: "comment" as const, message: "Commented on issue #567", time: "2 days ago", repo: "api" }
       ],
       stats: {
         projectsCompleted: 23,
@@ -103,19 +102,35 @@ const getUserData = (id: string) => {
       github: "alex_backend",
       linkedin: "alex-chen-engineer",
       twitter: "alex_builds",
-      status: "active",
+      status: "active" as const,
       verified: true,
       followers: 1542,
       following: 634,
       posts: 89,
+      performanceData: [
+        { month: "Jan", commits: 38, reviews: 18, issues: 5 },
+        { month: "Feb", commits: 42, reviews: 25, issues: 8 },
+        { month: "Mar", commits: 51, reviews: 32, issues: 12 },
+        { month: "Apr", commits: 45, reviews: 29, issues: 7 },
+        { month: "May", commits: 58, reviews: 35, issues: 10 },
+        { month: "Jun", commits: 62, reviews: 41, issues: 9 },
+      ],
+      activityTrend: [
+        { week: "W1", activity: 76 },
+        { week: "W2", activity: 89 },
+        { week: "W3", activity: 93 },
+        { week: "W4", activity: 87 },
+        { week: "W5", activity: 91 },
+        { week: "W6", activity: 96 },
+      ],
       skills: [
-        { name: "Go", level: "Expert", color: "blue" },
-        { name: "Docker", level: "Expert", color: "blue" },
-        { name: "Kubernetes", level: "Advanced", color: "green" },
-        { name: "PostgreSQL", level: "Advanced", color: "green" },
-        { name: "Redis", level: "Advanced", color: "green" },
-        { name: "gRPC", level: "Intermediate", color: "yellow" },
-        { name: "Terraform", level: "Intermediate", color: "yellow" }
+        { name: "Go", level: "Expert" as const, color: "blue" },
+        { name: "Docker", level: "Expert" as const, color: "blue" },
+        { name: "Kubernetes", level: "Advanced" as const, color: "green" },
+        { name: "PostgreSQL", level: "Advanced" as const, color: "green" },
+        { name: "Redis", level: "Advanced" as const, color: "green" },
+        { name: "gRPC", level: "Intermediate" as const, color: "yellow" },
+        { name: "Terraform", level: "Intermediate" as const, color: "yellow" }
       ],
       achievements: [
         { title: "System Architect", description: "Designed and implemented microservices architecture", icon: "🏗️", date: "2024-01-20" },
@@ -123,10 +138,10 @@ const getUserData = (id: string) => {
         { title: "Reliability Expert", description: "Achieved 99.9% uptime for critical services", icon: "🛡️", date: "2023-11-30" }
       ],
       recentActivity: [
-        { type: "deploy", message: "Deployed v2.1.0 to production", time: "1 hour ago", repo: "api-gateway" },
-        { type: "commit", message: "Optimized database queries", time: "3 hours ago", repo: "user-service" },
-        { type: "merge", message: "Merged feature: Rate limiting", time: "6 hours ago", repo: "auth-service" },
-        { type: "issue", message: "Fixed critical bug in payment processing", time: "1 day ago", repo: "payment-service" }
+        { type: "deploy" as const, message: "Deployed v2.1.0 to production", time: "1 hour ago", repo: "api-gateway" },
+        { type: "commit" as const, message: "Optimized database queries", time: "3 hours ago", repo: "user-service" },
+        { type: "merge" as const, message: "Merged feature: Rate limiting", time: "6 hours ago", repo: "auth-service" },
+        { type: "issue" as const, message: "Fixed critical bug in payment processing", time: "1 day ago", repo: "payment-service" }
       ],
       stats: {
         projectsCompleted: 31,
@@ -138,28 +153,6 @@ const getUserData = (id: string) => {
   }
   
   return users[id as keyof typeof users] || users["1"]
-}
-
-const getSkillLevelColor = (level: string) => {
-  switch (level) {
-    case "Expert": return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-    case "Advanced": return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-    case "Intermediate": return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-    case "Beginner": return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-    default: return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
-  }
-}
-
-const getActivityIcon = (type: string) => {
-  switch (type) {
-    case "commit": return <CheckCircle className="h-4 w-4 text-green-500" />
-    case "review": return <MessageCircle className="h-4 w-4 text-blue-500" />
-    case "issue": return <Target className="h-4 w-4 text-orange-500" />
-    case "comment": return <MessageCircle className="h-4 w-4 text-purple-500" />
-    case "deploy": return <TrendingUp className="h-4 w-4 text-green-600" />
-    case "merge": return <CheckCircle className="h-4 w-4 text-indigo-500" />
-    default: return <Clock className="h-4 w-4 text-gray-500" />
-  }
 }
 
 export default function UserProfilePage({ params }: UserProfileProps) {
@@ -174,347 +167,28 @@ export default function UserProfilePage({ params }: UserProfileProps) {
   
   return (
     <div className="flex-1 p-4 md:p-6 lg:p-8 pt-6">
-      {/* Cover Image & Avatar Section */}
-      <div className="relative mb-8">
-        <div 
-          className="h-48 md:h-64 w-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg overflow-hidden"
-          style={{
-            backgroundImage: `url(${user.coverImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
-        
-        <div className="absolute -bottom-16 left-6 md:left-8">
-          <Avatar className="w-32 h-32 border-4 border-white dark:border-gray-900">
-            <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback className="text-2xl font-bold">
-              {user.name.split(' ').map(n => n[0]).join('')}
-            </AvatarFallback>
-          </Avatar>
-        </div>
-        
-        <div className="absolute top-4 right-4 flex gap-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="secondary" size="sm">
-                  <MessageCircle className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Send Message</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          
-          <UserProfileEdit user={user} onSave={handleSaveProfile} />
-          
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="secondary" size="sm">
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>More Options</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      </div>
-
-      {/* User Info Section */}
-      <div className="ml-6 md:ml-8 pt-20 pb-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl font-bold">{user.name}</h1>
-              {user.verified && (
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <CheckCircle className="h-6 w-6 text-blue-500" />
-                    </TooltipTrigger>
-                    <TooltipContent>Verified User</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              )}
-              <Badge variant={user.status === 'active' ? 'default' : 'secondary'}>
-                {user.status}
-              </Badge>
-            </div>
-            <p className="text-xl text-muted-foreground mb-1">@{user.username}</p>
-            <p className="text-lg font-medium text-muted-foreground mb-4">{user.role} at {user.company}</p>
-            <p className="text-muted-foreground max-w-2xl">{user.bio}</p>
-          </div>
-          
-          <div className="flex gap-4 text-center">
-            <div>
-              <div className="text-2xl font-bold">{user.followers.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground">Followers</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold">{user.following.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground">Following</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold">{user.posts}</div>
-              <div className="text-sm text-muted-foreground">Posts</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Contact Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-8 ml-6 md:ml-8">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <MapPin className="h-4 w-4" />
-          <span>{user.location}</span>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Calendar className="h-4 w-4" />
-          <span>Joined {new Date(user.joinDate).toLocaleDateString()}</span>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Mail className="h-4 w-4" />
-          <span>{user.email}</span>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Building className="h-4 w-4" />
-          <span>{user.company}</span>
-        </div>
-      </div>
-
-      {/* Social Links */}
-      <div className="flex gap-3 mb-8 ml-6 md:ml-8">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="outline" size="sm">
-                <Github className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>GitHub: {user.github}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="outline" size="sm">
-                <Linkedin className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>LinkedIn: {user.linkedin}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="outline" size="sm">
-                <Twitter className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Twitter: {user.twitter}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
+      <UserProfileHeader user={user} onSaveProfile={handleSaveProfile} />
+      <UserContactInfo user={user} />
 
       {/* Main Content - Two Column Responsive Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Left Column */}
         <div className="space-y-6">
-          {/* Skills */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Star className="h-5 w-5" />
-                Skills & Expertise
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {user.skills.map((skill, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                    <span className="font-medium">{skill.name}</span>
-                    <Badge className={getSkillLevelColor(skill.level)}>
-                      {skill.level}
-                    </Badge>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Stats */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                Statistics
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
-                  <div className="text-2xl font-bold text-blue-600">{user.stats.projectsCompleted}</div>
-                  <div className="text-sm text-muted-foreground">Projects Completed</div>
-                </div>
-                <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg">
-                  <div className="text-2xl font-bold text-green-600">{user.stats.codeReviews}</div>
-                  <div className="text-sm text-muted-foreground">Code Reviews</div>
-                </div>
-                <div className="text-center p-4 bg-purple-50 dark:bg-purple-950/20 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600">{user.stats.linesOfCode.toLocaleString()}</div>
-                  <div className="text-sm text-muted-foreground">Lines of Code</div>
-                </div>
-                <div className="text-center p-4 bg-orange-50 dark:bg-orange-950/20 rounded-lg">
-                  <div className="text-2xl font-bold text-orange-600">{user.stats.bugsFixed}</div>
-                  <div className="text-sm text-muted-foreground">Bugs Fixed</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Contact Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                Contact Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                  <Mail className="h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <div className="font-medium text-sm">Email</div>
-                    <div className="text-xs text-muted-foreground">{user.email}</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                  <Phone className="h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <div className="font-medium text-sm">Phone</div>
-                    <div className="text-xs text-muted-foreground">{user.phone}</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                  <MapPin className="h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <div className="font-medium text-sm">Location</div>
-                    <div className="text-xs text-muted-foreground">{user.location}</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                  <Building className="h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <div className="font-medium text-sm">Company</div>
-                    <div className="text-xs text-muted-foreground">{user.company}</div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-3">
-                <Button className="w-full" variant="default">
-                  <MessageCircle className="h-4 w-4 mr-2" />
-                  Message
-                </Button>
-                <Button className="w-full" variant="outline">
-                  <Users className="h-4 w-4 mr-2" />
-                  Add to Team
-                </Button>
-                <Button className="w-full" variant="outline">
-                  <Star className="h-4 w-4 mr-2" />
-                  Follow
-                </Button>
-                <Button className="w-full" variant="outline">
-                  <Github className="h-4 w-4 mr-2" />
-                  GitHub
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <UserSkills skills={user.skills} />
+          <UserStats stats={user.stats} />
+          <UserTeamMembers />
+          <UserContactCard user={user} />
+          <UserQuickActions />
         </div>
 
         {/* Right Column */}
         <div className="space-y-6">
-          {/* Recent Activity */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="h-5 w-5" />
-                Recent Activity
-              </CardTitle>
-              <CardDescription>Latest contributions and updates</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ScrollArea className="h-[400px]">
-                <div className="space-y-4 pr-4">
-                  {user.recentActivity.map((activity, index) => (
-                    <div key={index} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                      {getActivityIcon(activity.type)}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium">{activity.message}</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Badge variant="outline" className="text-xs">
-                            {activity.repo}
-                          </Badge>
-                          <span className="text-xs text-muted-foreground">{activity.time}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </ScrollArea>
-            </CardContent>
-          </Card>
-
-          {/* Achievements */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Award className="h-5 w-5" />
-                Recent Achievements
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {user.achievements.map((achievement, index) => (
-                  <div key={index} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg">
-                    <div className="text-2xl">{achievement.icon}</div>
-                    <div className="flex-1">
-                      <div className="font-medium">{achievement.title}</div>
-                      <div className="text-sm text-muted-foreground">{achievement.description}</div>
-                      <div className="text-xs text-muted-foreground mt-1">
-                        {new Date(achievement.date).toLocaleDateString()}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Todo List */}
+          <UserPerformanceChart performanceData={user.performanceData} />
+          <UserActivityChart activityTrend={user.activityTrend} />
+          <UserRecentActivity recentActivity={user.recentActivity} />
+          <UserAchievements achievements={user.achievements} />
           <TodoList />
-          
-          {/* Select Test */}
-          <SelectTest />
         </div>
       </div>
     </div>
