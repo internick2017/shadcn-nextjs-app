@@ -244,6 +244,175 @@ const allPayments: Payment[] = [
     gateway: "PayPal",
     country: "US",
     risk_score: "low"
+  },
+  {
+    id: "9",
+    transactionId: "TXN-009-2024",
+    amount: 149.99,
+    currency: "USD",
+    status: "completed",
+    method: "credit_card",
+    customer: {
+      id: "9",
+      name: "Jennifer Davis",
+      email: "jennifer.davis@example.com",
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+    },
+    merchant: {
+      name: "OnlineCourses Pro",
+      category: "Education"
+    },
+    description: "Full-stack development course",
+    date: "2024-01-07T13:45:00Z",
+    fee: 4.35,
+    gateway: "Stripe",
+    country: "US",
+    risk_score: "low"
+  },
+  {
+    id: "10",
+    transactionId: "TXN-010-2024",
+    amount: 79.99,
+    currency: "USD",
+    status: "pending",
+    method: "debit_card",
+    customer: {
+      id: "10",
+      name: "Michael Brown",
+      email: "michael.brown@example.com",
+      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face"
+    },
+    merchant: {
+      name: "GameStore Digital",
+      category: "Gaming"
+    },
+    description: "Video game bundle",
+    date: "2024-01-06T20:15:00Z",
+    fee: 2.32,
+    gateway: "PayPal",
+    country: "US",
+    risk_score: "low"
+  },
+  {
+    id: "11",
+    transactionId: "TXN-011-2024",
+    amount: 399.99,
+    currency: "USD",
+    status: "failed",
+    method: "credit_card",
+    customer: {
+      id: "11",
+      name: "Amanda Wilson",
+      email: "amanda.wilson@example.com",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
+    },
+    merchant: {
+      name: "LaptopCenter Pro",
+      category: "Electronics"
+    },
+    description: "Gaming laptop accessories",
+    date: "2024-01-05T11:30:00Z",
+    fee: 0,
+    gateway: "Stripe",
+    country: "US",
+    risk_score: "medium"
+  },
+  {
+    id: "12",
+    transactionId: "TXN-012-2024",
+    amount: 34.99,
+    currency: "USD",
+    status: "completed",
+    method: "paypal",
+    customer: {
+      id: "12",
+      name: "Christopher Lee",
+      email: "christopher.lee@example.com",
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+    },
+    merchant: {
+      name: "MusicStreaming Plus",
+      category: "Entertainment"
+    },
+    description: "Premium music subscription",
+    date: "2024-01-04T16:20:00Z",
+    fee: 1.02,
+    gateway: "PayPal",
+    country: "US",
+    risk_score: "low"
+  },
+  {
+    id: "13",
+    transactionId: "TXN-013-2024",
+    amount: 189.99,
+    currency: "USD",
+    status: "refunded",
+    method: "bank_transfer",
+    customer: {
+      id: "13",
+      name: "Nicole Martinez",
+      email: "nicole.martinez@example.com",
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&h=150&fit=crop&crop=face"
+    },
+    merchant: {
+      name: "FashionOutlet Online",
+      category: "Fashion"
+    },
+    description: "Designer clothing order",
+    date: "2024-01-03T14:10:00Z",
+    fee: 2.85,
+    refundAmount: 189.99,
+    gateway: "Bank Direct",
+    country: "US",
+    risk_score: "low"
+  },
+  {
+    id: "14",
+    transactionId: "TXN-014-2024",
+    amount: 99.99,
+    currency: "USD",
+    status: "completed",
+    method: "crypto",
+    customer: {
+      id: "14",
+      name: "Kevin Thompson",
+      email: "kevin.thompson@example.com",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+    },
+    merchant: {
+      name: "CryptoTools Hub",
+      category: "Technology"
+    },
+    description: "Blockchain analytics tool",
+    date: "2024-01-02T09:45:00Z",
+    fee: 2.99,
+    gateway: "CoinBase Commerce",
+    country: "US",
+    risk_score: "high"
+  },
+  {
+    id: "15",
+    transactionId: "TXN-015-2024",
+    amount: 56.99,
+    currency: "USD",
+    status: "pending",
+    method: "credit_card",
+    customer: {
+      id: "15",
+      name: "Rachel Green",
+      email: "rachel.green@example.com",
+      avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face"
+    },
+    merchant: {
+      name: "BookClub Premium",
+      category: "Books"
+    },
+    description: "Annual book subscription",
+    date: "2024-01-01T18:30:00Z",
+    fee: 1.66,
+    gateway: "Square",
+    country: "US",
+    risk_score: "low"
   }
 ]
 
